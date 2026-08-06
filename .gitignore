@@ -1,0 +1,29 @@
+# Environment variables
+.env
+.env.local
+.env*.local
+
+# Node
+node_modules/
+.next/
+out/
+build/
+dist/
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# LiveKit
+*.log
+scratch/
