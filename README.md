@@ -18,7 +18,7 @@ Welcome to **10 Days of Voice Agents (#VoiceForBharat Edition)** repository!
 | **Day 2** | Coming Soon | Pending | `day2/` |
 | **Day 3** | Coming Soon | Pending | `day3/` |
 | **Day 4** | Give Your Agent a Memory That Lasts (SQLite & Function Tools) | Completed | [`day4/`](./day4) |
-| **Day 5** | Coming Soon | Pending | `day5/` |
+| **Day 5** | Adding The Tools (Mandi Prices & Weather Function Calls) | Completed | [`day5/`](./day5) |
 | **Day 6** | Coming Soon | Pending | `day6/` |
 | **Day 7** | Coming Soon | Pending | `day7/` |
 | **Day 8** | Coming Soon | Pending | `day8/` |
