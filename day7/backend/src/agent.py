@@ -10,7 +10,6 @@ if sys.platform == "win32":
     sys.stderr.reconfigure(encoding="utf-8")
 
 from dotenv import load_dotenv
-from livekit import rtc
 from livekit.agents import (
     Agent,
     AgentServer,
@@ -22,14 +21,7 @@ from livekit.agents import (
     room_io,
     tokenize,
 )
-from livekit.plugins import deepgram, google, murf, silero, turn_detector
-
-try:
-    from livekit.plugins import noise_cancellation
-
-    HAS_NOISE_CANCELLATION = True
-except ImportError:
-    HAS_NOISE_CANCELLATION = False
+from livekit.plugins import deepgram, google, murf, silero
 
 from db import (
     create_escalation_db,
@@ -303,30 +295,13 @@ async def my_agent(ctx: JobContext):
             tokenizer=tokenize.basic.SentenceTokenizer(min_sentence_len=2),
             text_pacing=True,
         ),
-        turn_detection=(
-            turn_detector.multilingual.MultilingualModel()
-            if hasattr(turn_detector, "multilingual")
-            else (
-                turn_detector.EOUPlugin() if hasattr(turn_detector, "EOUPlugin") else None
-            )
-        ),
         vad=ctx.proc.userdata["vad"],
-        preemptive_generation=True,
     )
 
     agent_instance = KrishiVaniAssistant(current_user_id=participant_identity)
 
-    room_options = None
-    if HAS_NOISE_CANCELLATION:
-        room_options = room_io.RoomOptions(
-            audio_input=room_io.AudioInputOptions(
-                noise_cancellation=lambda params: (
-                    noise_cancellation.BVCTelephony()
-                    if params.participant.kind == rtc.ParticipantKind.PARTICIPANT_KIND_SIP
-                    else noise_cancellation.BVC()
-                ),
-            ),
-        )
+    # Always provide a valid RoomOptions (required by livekit-agents 1.6.9+)
+    room_options = room_io.RoomOptions()
 
     await session.start(
         agent=agent_instance,
@@ -338,7 +313,6 @@ async def my_agent(ctx: JobContext):
 
     if profile:
         name = profile["name"]
-        district = profile["facts"]["district"]
         greeting = f"नमस्ते {name} जी! कृषिवाणी में आपका स्वागत है। आज मैं मंडी भाव, मौसम या किसी फसल समस्या में आपकी क्या मदद कर सकता हूँ?"
     else:
         greeting = "नमस्ते किसान भाई! मैं कृषिवाणी, आपका AI किसान मित्र। मंडी भाव, मौसम या किसी फसल समस्या में आज मैं आपकी क्या मदद कर सकता हूँ?"
