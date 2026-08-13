@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "day7-krishivani-human-help"
+version = "1.0.0"
+description = "Day 7 Human Help & Escalation Voice Agent for Farm & Field powered by Murf Falcon TTS and LiveKit"
+requires-python = ">=3.10, <3.15"
+
+dependencies = [
+    "livekit-agents[deepgram,google,silero,turn-detector]~=1.4",
+    "livekit-api>=0.8.0",
+    "livekit-murf>=0.1.1",
+    "livekit-plugins-noise-cancellation~=0.2",
+    "fastapi>=0.110.0",
+    "uvicorn>=0.28.0",
+    "httpx>=0.27.0",
+    "python-dotenv",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+    "ruff",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
